@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:clrp="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
+             xmlns:sl="clr-namespace:Syncfusion.Maui.Sliders;assembly=Syncfusion.Maui.Sliders"
+             xmlns:sinp="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             x:Class="HiteMaui.Pages.RGB_Page" MinimumWidthRequest="300"
+             Title="RGB_Page">
+    <VerticalStackLayout
+            Padding="0,0" Margin="5"
+            Spacing="10">
+        <Grid VerticalOptions="Fill" HorizontalOptions="Fill" ColumnDefinitions="0.5*,*" RowDefinitions="30,*,0.5*"
+                  RowSpacing="5" Margin="5" ColumnSpacing="5">
+            <Label Text="Swich (RGB)" Grid.Column="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"
+                       VerticalOptions="End" HorizontalOptions="EndAndExpand" Margin="0,0,5,0"/>
+            <sinp:SfMaskedEntry Grid.Column="0" Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" 
+                                    MaskType="RegEx" ValueMaskFormat="IncludePromptAndLiterals" Margin="0,1,0,0"
+                                    HeightRequest="35" Mask="#[0-9a-fA-F]{2,6}"/>
+            <Border WidthRequest="200" Grid.Row="1" Grid.Column="1" Padding="0" Margin="0" StrokeThickness="1"
+                        HeightRequest="200" HorizontalOptions="Start" StrokeShape="RoundRectangle 5">
+                <clrp:ColorPicker 
+                        ColorFlowDirection="Horizontal"
+                        ColorSpectrumStyle="TintToHueStyle"
+                        PointerRingBorderUnits="0.3"
+                        PointerRingDiameterUnits="0.7">
+                    <clrp:ColorPicker.BaseColorList>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>#F44336</x:String>
+                            <x:String>#E91E63</x:String>
+                            <x:String>#9C27B0</x:String>
+                            <x:String>#673AB7</x:String>
+                            <x:String>#3F51B5</x:String>
+                            <x:String>#2196F3</x:String>
+                            <x:String>#03A9F4</x:String>
+                            <x:String>#00BCD4</x:String>
+                            <x:String>#009688</x:String>
+                            <x:String>#4CAF50</x:String>
+                            <x:String>#8BC34A</x:String>
+                            <x:String>#CDDC39</x:String>
+                            <x:String>#FFEB3B</x:String>
+                            <x:String>#FFC107</x:String>
+                            <x:String>#FF9800</x:String>
+                            <x:String>#FF5722</x:String>
+                        </x:Array>
+                    </clrp:ColorPicker.BaseColorList>
+                </clrp:ColorPicker>
+            </Border>
+            <sl:SfSlider Minimum ="0" Maximum="100" Value="10" Grid.Column="1" Grid.Row="2"
+                             Orientation="Horizontal" MaximumWidthRequest="200"
+                                 Margin="0,0,0,0" ClipToBounds="True" 
+                        VerticalOptions="Center" HorizontalOptions="Start" ShowLabels="False" 
+                                 ShowDividers="True" ShowTicks="False">
+                <sl:SfSlider.TrackStyle>
+                    <sl:SliderTrackStyle ActiveFill="WhiteSmoke" InactiveFill="Gray" ActiveSize="6" />
+                </sl:SfSlider.TrackStyle>
+                <sl:SfSlider.ThumbStyle>
+                    <sl:SliderThumbStyle Fill="#FFFF6E40" Radius="9"/>
+                </sl:SfSlider.ThumbStyle>
+                <sl:SfSlider.ThumbOverlayStyle>
+                    <sl:SliderThumbOverlayStyle Fill="#7F003CFF" Radius="15"/>
+                </sl:SfSlider.ThumbOverlayStyle>
+            </sl:SfSlider>
+            <ImageButton Grid.Row="2" Grid.Column="0" WidthRequest="20" HeightRequest="20" HorizontalOptions="End" Source="appicon.png"/>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

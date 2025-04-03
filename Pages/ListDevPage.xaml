@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="HiteMaui.Pages.ListDevPage" x:Name="DevPage"
+             xmlns:local ="clr-namespace:HiteMaui.ViewModels"
+             xmlns:lc ="clr-namespace:HiteMaui.Models">
+    <ContentPage.BindingContext>
+        <local:ListDevModel/>
+    </ContentPage.BindingContext>
+    <ScrollView>
+            <FlexLayout Padding="0,0" Margin="10" Wrap="Wrap"
+                BindableLayout.ItemsSource="{Binding Devices}" JustifyContent="Start" 
+                Direction="Row" AlignItems="Stretch">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="lc:Device">
+                        <Grid RowDefinitions="25,50" RowSpacing="1" ColumnDefinitions="Auto,50" IsClippedToBounds="True" 
+                          MaximumWidthRequest="90" MaximumHeightRequest="70" BindingContext="{Binding .}" x:Name="STAS"
+                          MinimumWidthRequest="90" MinimumHeightRequest="70" InputTransparent="False" BackgroundColor="Crimson"
+                          >
+                            <Grid.Behaviors>
+                                <behaviors:TouchBehavior LongPressCommand="{Binding BindingContext.OpenEditCmd, Source={Reference Name=DevPage}}" 
+                                                     LongPressDuration="2000" LongPressCommandParameter="{Binding .}"
+                                                     Command="{Binding SwitchDeviceCmd}" CommandParameter="{Binding .}"
+                                                     BindingContext="{Binding Source={x:Reference STAS}, Path=BindingContext}"/>
+                            </Grid.Behaviors>
+
+                        <Label Text="{Binding Name}" FontSize="14" Grid.Row="0" Grid.ColumnSpan="1"/>
+                            <Label Text="{Binding Type_str}" FontSize="10" VerticalOptions="Start" Grid.Column="0" Grid.Row="1"/>
+                            <Switch IsToggled="{Binding LightState}" HorizontalOptions="End" VerticalOptions="Center" Grid.Column="1" Grid.Row="1"/>
+                        <ActivityIndicator IsVisible="{Binding IsChanging}" BackgroundColor="AntiqueWhite" IsRunning="{Binding IsChanging}" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                                           VerticalOptions="Center" HorizontalOptions="Center"/>
+                    </Grid>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+        </ScrollView>
+</ContentPage>

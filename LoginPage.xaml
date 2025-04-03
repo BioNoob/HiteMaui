@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local ="clr-namespace:HiteMaui.ViewModels"
+             xmlns:sbut="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             x:Class="HiteMaui.LoginPage">
+    <ContentPage.BindingContext>
+        <local:LoginModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+    </ContentPage.Resources>
+    <VerticalStackLayout             
+        Padding="0,0" Margin="10,0,10,10"
+        Spacing="10">
+        <Label Text="HiTe Pro Mini Api" VerticalOptions="Start" Grid.Row="0"
+       HorizontalOptions="Center" Padding="0"/>
+        <Grid RowDefinitions="auto,auto,*,auto,auto,20" RowSpacing="10">
+            <VerticalStackLayout Grid.Row="1">
+                <Label Text="Server Adress" HorizontalOptions="Center"
+                       VerticalOptions="End"/>
+                <Entry HorizontalOptions="Fill" Text="{Binding Ip}" MaximumWidthRequest="250" ClearButtonVisibility="WhileEditing"
+                        HeightRequest="30" MinimumHeightRequest="25" MinimumWidthRequest="150">
+                    <Entry.Triggers>
+                        <DataTrigger TargetType="Entry"
+                         Binding="{Binding IpIsValid}"
+                         Value="false">
+                            <Setter Property="BackgroundColor" Value="#7FFF7373" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Entry"
+                         Binding="{Binding IpIsValid}"
+                         Value="true">
+                            <Setter Property="BackgroundColor" Value="Transparent" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Entry"
+                                     Binding="{Binding UseLocal}"
+                                     Value="true">
+                            <Setter Property="IsReadOnly" Value="True"/>
+                        </DataTrigger>
+                    </Entry.Triggers>
+                </Entry>
+                <sbut:SfCheckBox Text="Use local" IsChecked="{Binding UseLocal}" TextColor="White"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Row="2">
+                <Label Text="Login" VerticalOptions="Center" FontSize="12"/>
+                <Entry HorizontalOptions="Fill" MinimumWidthRequest="100"  MinimumHeightRequest="25" Text="{Binding Login}"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Row="3">
+                <Label Text="Password" VerticalOptions="Center" FontSize="12"/>
+                <Entry HorizontalOptions="Fill" MinimumWidthRequest="100"  MinimumHeightRequest="25" Text="{Binding Passwd}" 
+                       IsPassword="True"/>
+            </VerticalStackLayout>
+            <sbut:SfButton Grid.Row="4" Text="Connect" IsEnabled="{Binding AllIsValid}" MaximumWidthRequest="250" Command="{Binding DoLoginCmd }"/>
+            <Label HorizontalOptions="Fill" HorizontalTextAlignment="Center" Text="{Binding Messge}"
+                   Grid.Row="5" FontSize="8"/>
+        </Grid>
+
+
+    </VerticalStackLayout>
+
+</ContentPage>
