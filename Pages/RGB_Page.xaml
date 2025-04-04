@@ -8,20 +8,25 @@
              xmlns:lmd ="clr-namespace:HiteMaui.Models"
              xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="HiteMaui.Pages.RGB_Page" x:Name="RGBPage">
-             <ContentPage.BindingContext>
-                <local:RGB_VM/>
-             </ContentPage.BindingContext>
+    <ContentPage.BindingContext>
+        <local:RGB_VM/>
+    </ContentPage.BindingContext>
     <VerticalStackLayout
             Padding="0,0" Margin="5"
-            Spacing="10">
-        <Grid VerticalOptions="Fill" HorizontalOptions="Fill" ColumnDefinitions="70,*" RowDefinitions="30,*,0.5*"
+            >
+        <Grid Margin="10,0" Padding="0" ColumnDefinitions="*,*" RowDefinitions="*,20">
+            <Label Text="{Binding RGB_switch.Name}" FontSize="20" VerticalTextAlignment="Center"
+                   VerticalOptions="Center" HorizontalTextAlignment="Center" HorizontalOptions="Start"/>
+            <Button MinimumWidthRequest="20" MinimumHeightRequest="20"  HorizontalOptions="End" Grid.Column="1"/>
+            <Label Text="Swich (RGB)" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="10"
+           VerticalOptions="End" HorizontalOptions="Start" Margin="0,0,5,0" Grid.Column="0" Grid.Row="1"/>
+        </Grid>
+        <Grid VerticalOptions="Fill" HorizontalOptions="Fill" ColumnDefinitions="80,*" RowDefinitions="0,*,0.5*"
                   RowSpacing="5" Margin="5" ColumnSpacing="5">
-            <Label Text="Swich (RGB)" Grid.Column="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"
-                       VerticalOptions="End" HorizontalOptions="End" Margin="0,0,5,0"/>
-            <sinp:SfMaskedEntry Grid.Column="0" Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" 
+            <sinp:SfMaskedEntry Grid.Column="0" Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Start" 
                                     MaskType="RegEx" ValueMaskFormat="IncludePromptAndLiterals" Margin="0,1,0,0"
-                                    HeightRequest="35" Mask="#[0-9a-fA-F]{2,6}" MaximumWidthRequest="70"
-                                    Value="{Binding RGB_switch.Colour}">
+                                    HeightRequest="35" Mask="#[0-9a-fA-F]{2,6}" MaximumWidthRequest="80" WidthRequest="80"
+                                    Background="{Binding CLR}" Value="{Binding EntryColor}" TextColor="{Binding InvertCLR}">
                                     <sinp:SfMaskedEntry.Behaviors>
                                          <behaviors:TouchBehavior LongPressCommand="{Binding BindingContext.OpenPalletCmd, Source={Reference Name=RGBPage}}" 
                                                      LongPressDuration="2000"
@@ -33,8 +38,8 @@
                 <clrp:ColorPicker 
                         ColorFlowDirection="Horizontal"
                         ColorSpectrumStyle="TintToHueStyle"
-                        PointerRingBorderUnits="0.3" PickedColor ="{Binding CLR}"
-                        PointerRingDiameterUnits="0.7">
+                        PointerRingBorderUnits="0.3" PickedColor ="{Binding CLR, Mode=TwoWay}"
+                        PointerRingDiameterUnits="0.7" TouchActionType="OnTouchUp">
                     <clrp:ColorPicker.BaseColorList>
                         <x:Array Type="{x:Type x:String}">
                             <x:String>#F44336</x:String>
@@ -57,9 +62,9 @@
                     </clrp:ColorPicker.BaseColorList>
                 </clrp:ColorPicker>
             </Border>
-            <sl:SfSlider Minimum ="0" Maximum="100" Value="{Binding RGB_switch.Dimm}" Grid.Column="1" Grid.Row="2"
+            <sl:SfSlider Minimum ="0" Maximum="100" Value="{Binding Dimmer_val}" Grid.Column="1" Grid.Row="2"
                              Orientation="Horizontal" MaximumWidthRequest="200"
-                                 Margin="0,0,0,0" ClipToBounds="True" 
+                                 Margin="0,0,0,0" ClipToBounds="True" EnableDeferredUpdate="True"
                         VerticalOptions="Center" HorizontalOptions="Center" ShowLabels="False" 
                                  ShowDividers="True" ShowTicks="False">
                 <sl:SfSlider.TrackStyle>
@@ -73,7 +78,7 @@
                 </sl:SfSlider.ThumbOverlayStyle>
             </sl:SfSlider>
             <Switch Grid.Row="2" Grid.Column="0" HorizontalOptions="End" VerticalOptions="Center"
-                IsToggled="{Binding RGB_switch.LightState}"/>
+                IsToggled="{Binding IsLightOn}"/>
         </Grid>
     </VerticalStackLayout>
 </ContentPage>

@@ -4,7 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using static HiteMaui.Models.HiteModel;
-using Color = System.Drawing.Color;
+using Color = Microsoft.Maui.Graphics.Color;
 
 namespace HiteMaui.Models
 {
@@ -203,7 +203,6 @@ namespace HiteMaui.Models
                 dimm = value;
                 if (dimm > 0)
                     LastDim = value;
-                SwitchDeviceCmd.Execute("null");
             }
         }
 
@@ -232,32 +231,18 @@ namespace HiteMaui.Models
     [AddINotifyPropertyChangedInterface]
     public class RGB : Dimmer
     {
-        public Color Colour_ => string.IsNullOrEmpty(Colour) ? Color.Empty : ColorTranslator.FromHtml($"#{Colour}");
+        public Color? Colour_ => string.IsNullOrEmpty(Colour) ? null : Color.FromArgb($"#{Colour}");
         public RGB()
         {
             Colour = string.Empty;
         }
-        public async Task<bool> SetColor(Color color, int dimmer = -1)
-        {
-            if (Type_ != Typer.dimmer)
-                return false;
-            else
-            {
-                using HttpRequestMessage request = new(HttpMethod.Put, $"{Url_req}{Id}/" +
-                    $"{(dimmer == -1 ? Dimm : dimmer)}/?color={ToHex(color)}");
-                var resp = await client.SendAsync(request);
-                var a = await resp.Content.ReadAsStringAsync();
-                if (resp.StatusCode == System.Net.HttpStatusCode.OK)
-                    return true;
-                else return false;
-            }
-        }
+        
         public override async Task<bool> ChangeState()
         {
             try
             {
-                using HttpRequestMessage request = new(HttpMethod.Put,
-                    $"{Url_req}{Id}/{(Dimm == 0 ? 100 : 0)}//?color={ToHex(Colour_)}");
+                using HttpRequestMessage request = new(HttpMethod.Put, $"{Url_req}{Id}/" +
+                    $"{Dimm}/?color={Colour_?.ToArgbHex(false).Remove(0, 1)}");//{ToHex(color)}");
                 var resp = await client.SendAsync(request);
                 var a = await resp.Content.ReadAsStringAsync();
                 if (resp.StatusCode == System.Net.HttpStatusCode.OK)
