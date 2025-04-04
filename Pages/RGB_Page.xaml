@@ -4,24 +4,36 @@
              xmlns:clrp="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
              xmlns:sl="clr-namespace:Syncfusion.Maui.Sliders;assembly=Syncfusion.Maui.Sliders"
              xmlns:sinp="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
-             x:Class="HiteMaui.Pages.RGB_Page" MinimumWidthRequest="300"
-             Title="RGB_Page">
+             xmlns:local ="clr-namespace:HiteMaui.ViewModels"
+             xmlns:lmd ="clr-namespace:HiteMaui.Models"
+             xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="HiteMaui.Pages.RGB_Page" x:Name="RGBPage">
+             <ContentPage.BindingContext>
+                <local:RGB_VM/>
+             </ContentPage.BindingContext>
     <VerticalStackLayout
             Padding="0,0" Margin="5"
             Spacing="10">
-        <Grid VerticalOptions="Fill" HorizontalOptions="Fill" ColumnDefinitions="0.5*,*" RowDefinitions="30,*,0.5*"
+        <Grid VerticalOptions="Fill" HorizontalOptions="Fill" ColumnDefinitions="70,*" RowDefinitions="30,*,0.5*"
                   RowSpacing="5" Margin="5" ColumnSpacing="5">
             <Label Text="Swich (RGB)" Grid.Column="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"
-                       VerticalOptions="End" HorizontalOptions="EndAndExpand" Margin="0,0,5,0"/>
+                       VerticalOptions="End" HorizontalOptions="End" Margin="0,0,5,0"/>
             <sinp:SfMaskedEntry Grid.Column="0" Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" 
                                     MaskType="RegEx" ValueMaskFormat="IncludePromptAndLiterals" Margin="0,1,0,0"
-                                    HeightRequest="35" Mask="#[0-9a-fA-F]{2,6}"/>
+                                    HeightRequest="35" Mask="#[0-9a-fA-F]{2,6}" MaximumWidthRequest="70"
+                                    Value="{Binding RGB_switch.Colour}">
+                                    <sinp:SfMaskedEntry.Behaviors>
+                                         <behaviors:TouchBehavior LongPressCommand="{Binding BindingContext.OpenPalletCmd, Source={Reference Name=RGBPage}}" 
+                                                     LongPressDuration="2000"
+                                                     />
+                                    </sinp:SfMaskedEntry.Behaviors>
+                                    </sinp:SfMaskedEntry>
             <Border WidthRequest="200" Grid.Row="1" Grid.Column="1" Padding="0" Margin="0" StrokeThickness="1"
-                        HeightRequest="200" HorizontalOptions="Start" StrokeShape="RoundRectangle 5">
+                        HeightRequest="200" HorizontalOptions="Center" StrokeShape="RoundRectangle 5">
                 <clrp:ColorPicker 
                         ColorFlowDirection="Horizontal"
                         ColorSpectrumStyle="TintToHueStyle"
-                        PointerRingBorderUnits="0.3"
+                        PointerRingBorderUnits="0.3" PickedColor ="{Binding CLR}"
                         PointerRingDiameterUnits="0.7">
                     <clrp:ColorPicker.BaseColorList>
                         <x:Array Type="{x:Type x:String}">
@@ -45,10 +57,10 @@
                     </clrp:ColorPicker.BaseColorList>
                 </clrp:ColorPicker>
             </Border>
-            <sl:SfSlider Minimum ="0" Maximum="100" Value="10" Grid.Column="1" Grid.Row="2"
+            <sl:SfSlider Minimum ="0" Maximum="100" Value="{Binding RGB_switch.Dimm}" Grid.Column="1" Grid.Row="2"
                              Orientation="Horizontal" MaximumWidthRequest="200"
                                  Margin="0,0,0,0" ClipToBounds="True" 
-                        VerticalOptions="Center" HorizontalOptions="Start" ShowLabels="False" 
+                        VerticalOptions="Center" HorizontalOptions="Center" ShowLabels="False" 
                                  ShowDividers="True" ShowTicks="False">
                 <sl:SfSlider.TrackStyle>
                     <sl:SliderTrackStyle ActiveFill="WhiteSmoke" InactiveFill="Gray" ActiveSize="6" />
@@ -60,7 +72,8 @@
                     <sl:SliderThumbOverlayStyle Fill="#7F003CFF" Radius="15"/>
                 </sl:SfSlider.ThumbOverlayStyle>
             </sl:SfSlider>
-            <ImageButton Grid.Row="2" Grid.Column="0" WidthRequest="20" HeightRequest="20" HorizontalOptions="End" Source="appicon.png"/>
+            <Switch Grid.Row="2" Grid.Column="0" HorizontalOptions="End" VerticalOptions="Center"
+                IsToggled="{Binding RGB_switch.LightState}"/>
         </Grid>
     </VerticalStackLayout>
 </ContentPage>

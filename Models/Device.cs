@@ -104,21 +104,6 @@ namespace HiteMaui.Models
                 object stat = string.Empty;
                 LightState = GetLightState(status, ref stat);
                 Status = stat;
-                //switch (status.GetValueKind())
-                //{
-                //    case JsonValueKind.String:
-                //        Status = status.GetValue<string>();
-                //        break;
-                //    case JsonValueKind.Number:
-                //        Status = status.GetValue<int>();
-                //        LightState = (int)Status > 0;
-                //        break;
-                //    case JsonValueKind.False:
-                //    case JsonValueKind.True:
-                //        Status = status.GetValue<bool>();
-                //        LightState = (bool)Status;
-                //        break;
-                //}
                 if (color != null)
                     Colour = color.GetValue<string>();
                 if (resp.StatusCode == System.Net.HttpStatusCode.OK)
@@ -209,11 +194,23 @@ namespace HiteMaui.Models
     [AddINotifyPropertyChangedInterface]
     public class Dimmer : Device, ISwitcher
     {
-        public int Dimm { get; set; }
+        private int dimm;
+        public int LastDim { get; set; }
+        public int Dimm
+        {
+            get => dimm; set
+            {
+                dimm = value;
+                if (dimm > 0)
+                    LastDim = value;
+                SwitchDeviceCmd.Execute("null");
+            }
+        }
 
         public Dimmer()
         {
             Dimm = 0;
+            LastDim = Dimm;
         }
         public override async Task<bool> ChangeState()
         {

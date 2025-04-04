@@ -117,7 +117,8 @@ namespace HiteMaui.Models
                                     Id = id,
                                     Type_str = type,
                                     Name = name,
-                                    Status = status
+                                    Status = status,
+                                    LightState = lightst
                                 });
                                 break;
                             case Typer.drive:
@@ -130,7 +131,8 @@ namespace HiteMaui.Models
                                     Id = id,
                                     Type_str = type,
                                     Name = name,
-                                    Status = status
+                                    Status = status,
+                                    LightState = lightst
                                 });
                                 break;
                             case Typer.rgb:
@@ -141,7 +143,8 @@ namespace HiteMaui.Models
                                     Id = id,
                                     Type_str = "rgb",
                                     Name = name,
-                                    Status = status
+                                    Status = status,
+                                    LightState = lightst
                                 });
                                 break;
                             case Typer.checker:
