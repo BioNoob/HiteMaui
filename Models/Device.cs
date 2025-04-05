@@ -11,6 +11,8 @@ namespace HiteMaui.Models
     public interface ISwitcher
     {
         public Task<bool> ChangeState();
+        public event UpdateNotifyer OnUpdateRecived;
+        public delegate void UpdateNotifyer();
     }
 
     [AddINotifyPropertyChangedInterface]
@@ -104,6 +106,15 @@ namespace HiteMaui.Models
                 object stat = string.Empty;
                 LightState = GetLightState(status, ref stat);
                 Status = stat;
+                switch (this.Type_)
+                {
+                    case Typer.swtch:
+                        break;
+                    case Typer.dimmer:
+                    case Typer.rgb:
+                        ((Dimmer)this).Dimm = (int)Status;
+                        break;
+                }
                 if (color != null)
                     Colour = color.GetValue<string>();
                 if (resp.StatusCode == System.Net.HttpStatusCode.OK)
@@ -120,6 +131,9 @@ namespace HiteMaui.Models
         abstract public Task<bool> ChangeState();
         public bool IsChanging { get; set; }
         private CommandHandler _switchdev;
+
+        public event ISwitcher.UpdateNotifyer OnUpdateRecived;
+
         public CommandHandler SwitchDeviceCmd
         {
             get
@@ -138,6 +152,10 @@ namespace HiteMaui.Models
                     catch (Exception)
                     {
                         throw;
+                    }
+                    finally
+                    {
+                        OnUpdateRecived?.Invoke();
                     }
                 },
                 (obj) => !IsChanging

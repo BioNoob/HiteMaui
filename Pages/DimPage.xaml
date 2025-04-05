@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HiteMaui.Pages.DimPage"
+             xmlns:sbut="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:sl="clr-namespace:Syncfusion.Maui.Sliders;assembly=Syncfusion.Maui.Sliders"
+             xmlns:local ="clr-namespace:HiteMaui.ViewModels"
+             x:Name="Dim_Page">
+    <ContentPage.BindingContext>
+        <local:Dimmer_VM/>
+    </ContentPage.BindingContext>
+    <VerticalStackLayout
+            Padding="0,0" Margin="5">
+        <Button MinimumWidthRequest="25" HorizontalOptions="Start" VerticalOptions="Start" Command="{Binding BackCmd}" 
+                             MinimumHeightRequest="25"/>
+        <Grid Margin="10,0" Padding="0" ColumnDefinitions="*,*" RowDefinitions="*,20">
+            <Label Text="{Binding Dims.Name}" FontSize="20" VerticalTextAlignment="Center"
+                   VerticalOptions="Center" HorizontalTextAlignment="Center" HorizontalOptions="Start"/>
+
+            <sbut:SfButton MaximumHeightRequest="25" MaximumWidthRequest="25" MinimumHeightRequest="25" MinimumWidthRequest="25" 
+                           Grid.Column="1" HorizontalOptions="End" ImageSize="20" Background="Transparent"
+                           ImageSource="refresh.png" Command="{Binding RefreshCmd}" ShowIcon="True" HorizontalTextAlignment="Center" 
+                           ImageAlignment="Default" Clicked="SfButton_Clicked"/>
+            <Label Text="Swich" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="10"
+           VerticalOptions="End" HorizontalOptions="Start" Margin="0,0,5,0" Grid.Column="0" Grid.Row="1"/>
+        </Grid>
+        <Grid VerticalOptions="Fill" HorizontalOptions="Fill" ColumnDefinitions="Auto,*" RowDefinitions="0,*,0.5*"
+                  RowSpacing="5" Margin="5" ColumnSpacing="5">
+            <sl:SfSlider Minimum ="0" Maximum="100" Value="{Binding Dimmer_val, Mode=TwoWay}" Grid.Column="1" Grid.Row="2"
+                             Orientation="Horizontal" MaximumWidthRequest="200"
+                                 Margin="0,0,0,0" ClipToBounds="True" EnableDeferredUpdate="True"
+                        VerticalOptions="Center" HorizontalOptions="Start" ShowLabels="False" 
+                                 ShowDividers="True" ShowTicks="False">
+            <sl:SfSlider.TrackStyle>
+                <sl:SliderTrackStyle ActiveFill="WhiteSmoke" InactiveFill="Gray" ActiveSize="6" />
+            </sl:SfSlider.TrackStyle>
+            <sl:SfSlider.ThumbStyle>
+                <sl:SliderThumbStyle Fill="#FFFF6E40" Radius="9"/>
+            </sl:SfSlider.ThumbStyle>
+            <sl:SfSlider.ThumbOverlayStyle>
+                <sl:SliderThumbOverlayStyle Radius="15"/>
+            </sl:SfSlider.ThumbOverlayStyle>
+        </sl:SfSlider>
+            <sbut:SfSwitch MinimumWidthRequest="40" IsOn="{Binding IsLightOn}" HorizontalOptions="End" 
+                       Grid.Row="2" Grid.Column="0">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup  x:Name="CommonStates">
+                        <VisualState x:Name="On">
+                            <VisualState.Setters>
+                                <Setter Property="SwitchSettings">
+                                    <Setter.Value>
+                                        <sbut:SwitchSettings
+                                ThumbStrokeThickness="2"
+                                TrackStrokeThickness="2"  
+                                TrackHeightRequest="25" 
+                                TrackWidthRequest="50" 
+                                TrackCornerRadius="8"
+                                ThumbCornerRadius="8" 
+                                ThumbHeightRequest="15" 
+                                ThumbWidthRequest="15"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Off">
+                            <VisualState.Setters>
+                                <Setter Property="SwitchSettings">
+                                    <Setter.Value>
+                                        <sbut:SwitchSettings
+                                ThumbStrokeThickness="2"
+                                TrackStrokeThickness="2"  
+                                TrackHeightRequest="25" 
+                                TrackWidthRequest="50" 
+                                TrackCornerRadius="8"
+                                ThumbCornerRadius="8" 
+                                ThumbHeightRequest="10" 
+                                ThumbWidthRequest="10"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </sbut:SfSwitch>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

@@ -16,11 +16,11 @@
                     <DataTemplate x:DataType="lc:Device">
                         <Grid RowDefinitions="25,50" RowSpacing="1" ColumnDefinitions="Auto,50" IsClippedToBounds="True" 
                           MaximumWidthRequest="90" MaximumHeightRequest="70" BindingContext="{Binding .}" x:Name="STAS"
-                          MinimumWidthRequest="90" MinimumHeightRequest="70" InputTransparent="False" BackgroundColor="Crimson"
+                          MinimumWidthRequest="90" MinimumHeightRequest="70" InputTransparent="False" 
                           >
                             <Grid.Behaviors>
                                 <behaviors:TouchBehavior LongPressCommand="{Binding BindingContext.OpenEditCmd, Source={Reference Name=DevPage}}" 
-                                                     LongPressDuration="2000" LongPressCommandParameter="{Binding .}"
+                                                     LongPressDuration="1000" LongPressCommandParameter="{Binding .}"
                                                      Command="{Binding SwitchDeviceCmd}" CommandParameter="{Binding .}"
                                                      BindingContext="{Binding Source={x:Reference STAS}, Path=BindingContext}"/>
                             </Grid.Behaviors>

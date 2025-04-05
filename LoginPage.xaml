@@ -19,7 +19,7 @@
                 <Label Text="Server Adress" HorizontalOptions="Center"
                        VerticalOptions="End"/>
                 <Entry HorizontalOptions="Fill" Text="{Binding Ip}" MaximumWidthRequest="250" ClearButtonVisibility="WhileEditing"
-                        HeightRequest="30" MinimumHeightRequest="25" MinimumWidthRequest="150">
+                        HeightRequest="35" MinimumHeightRequest="35" MinimumWidthRequest="150">
                     <Entry.Triggers>
                         <DataTrigger TargetType="Entry"
                          Binding="{Binding IpIsValid}"

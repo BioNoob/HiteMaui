@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:clrp="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
              xmlns:sl="clr-namespace:Syncfusion.Maui.Sliders;assembly=Syncfusion.Maui.Sliders"
              xmlns:sinp="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:sbut="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:spop="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:local ="clr-namespace:HiteMaui.ViewModels"
              xmlns:lmd ="clr-namespace:HiteMaui.Models"
              xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -12,60 +14,66 @@
         <local:RGB_VM/>
     </ContentPage.BindingContext>
     <VerticalStackLayout
-            Padding="0,0" Margin="5"
-            >
+            Padding="0,0" Margin="5">
+        <Button MinimumWidthRequest="25" HorizontalOptions="Start" VerticalOptions="Start" Command="{Binding BackCmd}" 
+                             MinimumHeightRequest="25"/>
         <Grid Margin="10,0" Padding="0" ColumnDefinitions="*,*" RowDefinitions="*,20">
             <Label Text="{Binding RGB_switch.Name}" FontSize="20" VerticalTextAlignment="Center"
                    VerticalOptions="Center" HorizontalTextAlignment="Center" HorizontalOptions="Start"/>
-            <Button MinimumWidthRequest="20" MinimumHeightRequest="20"  HorizontalOptions="End" Grid.Column="1"/>
-            <Label Text="Swich (RGB)" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="10"
+
+                <sbut:SfButton MaximumHeightRequest="25" MaximumWidthRequest="25" MinimumHeightRequest="25" MinimumWidthRequest="25" 
+                           Grid.Column="1" HorizontalOptions="End" ImageSize="20" Background="Transparent"
+                           ImageSource="refresh.png" Command="{Binding RefreshCmd}" ShowIcon="True" HorizontalTextAlignment="Center" 
+                           ImageAlignment="Default" Clicked="SfButton_Clicked"/>
+
+                <Label Text="Swich (RGB)" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="10"
            VerticalOptions="End" HorizontalOptions="Start" Margin="0,0,5,0" Grid.Column="0" Grid.Row="1"/>
         </Grid>
-        <Grid VerticalOptions="Fill" HorizontalOptions="Fill" ColumnDefinitions="80,*" RowDefinitions="0,*,0.5*"
+        <Grid VerticalOptions="Fill" HorizontalOptions="Fill" ColumnDefinitions="Auto,*" RowDefinitions="0,*,0.5*"
                   RowSpacing="5" Margin="5" ColumnSpacing="5">
-            <sinp:SfMaskedEntry Grid.Column="0" Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Start" 
-                                    MaskType="RegEx" ValueMaskFormat="IncludePromptAndLiterals" Margin="0,1,0,0"
-                                    HeightRequest="35" Mask="#[0-9a-fA-F]{2,6}" MaximumWidthRequest="80" WidthRequest="80"
-                                    Background="{Binding CLR}" Value="{Binding EntryColor}" TextColor="{Binding InvertCLR}">
-                                    <sinp:SfMaskedEntry.Behaviors>
-                                         <behaviors:TouchBehavior LongPressCommand="{Binding BindingContext.OpenPalletCmd, Source={Reference Name=RGBPage}}" 
-                                                     LongPressDuration="2000"
-                                                     />
-                                    </sinp:SfMaskedEntry.Behaviors>
-                                    </sinp:SfMaskedEntry>
+            <VerticalStackLayout Grid.Column="0" Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Start" Spacing="5">
+                <sinp:SfMaskedEntry x:Name="ClrEntry"
+                                    MaskType="RegEx" ValueMaskFormat="IncludePromptAndLiterals" Margin="0,1,0,0" 
+                                    HeightRequest="35" Mask="#[0-9a-fA-F]{2,6}" MaximumWidthRequest="80" WidthRequest="80" 
+                                    Background="{Binding CLR}" Value="{Binding EntryColor}" TextColor="{Binding InvertCLR}" ValidationMode="LostFocus">
+                </sinp:SfMaskedEntry>
+                <ImageButton VerticalOptions="End" HorizontalOptions="End" MinimumWidthRequest="25" 
+                             MinimumHeightRequest="25" Source="paint.png" Command="{Binding OpenPalletCmd}"/>
+            </VerticalStackLayout>
+
             <Border WidthRequest="200" Grid.Row="1" Grid.Column="1" Padding="0" Margin="0" StrokeThickness="1"
-                        HeightRequest="200" HorizontalOptions="Center" StrokeShape="RoundRectangle 5">
+                        HeightRequest="200" HorizontalOptions="Start" StrokeShape="RoundRectangle 5">
                 <clrp:ColorPicker 
                         ColorFlowDirection="Horizontal"
                         ColorSpectrumStyle="TintToHueStyle"
                         PointerRingBorderUnits="0.3" PickedColor ="{Binding CLR, Mode=TwoWay}"
                         PointerRingDiameterUnits="0.7" TouchActionType="OnTouchUp">
-                    <clrp:ColorPicker.BaseColorList>
+                    <!--<clrp:ColorPicker.BaseColorList>
                         <x:Array Type="{x:Type x:String}">
-                            <x:String>#F44336</x:String>
-                            <x:String>#E91E63</x:String>
-                            <x:String>#9C27B0</x:String>
-                            <x:String>#673AB7</x:String>
-                            <x:String>#3F51B5</x:String>
-                            <x:String>#2196F3</x:String>
-                            <x:String>#03A9F4</x:String>
-                            <x:String>#00BCD4</x:String>
-                            <x:String>#009688</x:String>
-                            <x:String>#4CAF50</x:String>
-                            <x:String>#8BC34A</x:String>
-                            <x:String>#CDDC39</x:String>
-                            <x:String>#FFEB3B</x:String>
-                            <x:String>#FFC107</x:String>
-                            <x:String>#FF9800</x:String>
+                            <x:String>#FF0000</x:String>
+                            <x:String>#8B0000</x:String>
+                            <x:String>#D2691E</x:String>
+                            <x:String>#FF4500</x:String>
+                            <x:String>#FF8C00</x:String>
+                            <x:String>#FFA500</x:String>
+                            <x:String>#FFFF00</x:String>
+                            <x:String>#808000</x:String>
+                            <x:String>#9ACD32</x:String>
+                            <x:String>#7CFC00</x:String>
+                            <x:String>#00FF00</x:String>
+                            <x:String>#00FF7F</x:String>
+                            <x:String>#008000</x:String>
+                            <x:String>#006400</x:String>
+                            <x:String>#008080</x:String>
                             <x:String>#FF5722</x:String>
                         </x:Array>
-                    </clrp:ColorPicker.BaseColorList>
+                    </clrp:ColorPicker.BaseColorList>-->
                 </clrp:ColorPicker>
             </Border>
-            <sl:SfSlider Minimum ="0" Maximum="100" Value="{Binding Dimmer_val}" Grid.Column="1" Grid.Row="2"
+            <sl:SfSlider Minimum ="0" Maximum="100" Value="{Binding Dimmer_val, Mode=TwoWay}" Grid.Column="1" Grid.Row="2"
                              Orientation="Horizontal" MaximumWidthRequest="200"
                                  Margin="0,0,0,0" ClipToBounds="True" EnableDeferredUpdate="True"
-                        VerticalOptions="Center" HorizontalOptions="Center" ShowLabels="False" 
+                        VerticalOptions="Center" HorizontalOptions="Start" ShowLabels="False" 
                                  ShowDividers="True" ShowTicks="False">
                 <sl:SfSlider.TrackStyle>
                     <sl:SliderTrackStyle ActiveFill="WhiteSmoke" InactiveFill="Gray" ActiveSize="6" />
@@ -77,8 +85,92 @@
                     <sl:SliderThumbOverlayStyle Fill="#7F003CFF" Radius="15"/>
                 </sl:SfSlider.ThumbOverlayStyle>
             </sl:SfSlider>
-            <Switch Grid.Row="2" Grid.Column="0" HorizontalOptions="End" VerticalOptions="Center"
-                IsToggled="{Binding IsLightOn}"/>
+            <sbut:SfSwitch MinimumWidthRequest="40" IsOn="{Binding IsLightOn}" HorizontalOptions="End" Grid.Row="2" Grid.Column="0">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup  x:Name="CommonStates">
+                        <VisualState x:Name="On">
+                            <VisualState.Setters>
+                                <Setter Property="SwitchSettings">
+                                    <Setter.Value>
+                                        <sbut:SwitchSettings
+                                ThumbStrokeThickness="2"
+                                TrackStrokeThickness="2"  
+                                TrackHeightRequest="25" 
+                                TrackWidthRequest="50" 
+                                TrackCornerRadius="8"
+                                ThumbCornerRadius="8" 
+                                ThumbHeightRequest="15" 
+                                ThumbWidthRequest="15"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Off">
+                            <VisualState.Setters>
+                                <Setter Property="SwitchSettings">
+                                    <Setter.Value>
+                                        <sbut:SwitchSettings
+                                ThumbStrokeThickness="2"
+                                TrackStrokeThickness="2"  
+                                TrackHeightRequest="25" 
+                                TrackWidthRequest="50" 
+                                TrackCornerRadius="8"
+                                ThumbCornerRadius="8" 
+                                ThumbHeightRequest="10" 
+                                ThumbWidthRequest="10"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </sbut:SfSwitch>
+
         </Grid>
+        <spop:SfPopup OverlayMode="Blur" ShowHeader="False" ShowFooter="False"  IsOpen="{Binding ColorPalleteIsOpen}"
+RelativeView="{x:Reference ClrEntry}" RelativePosition="AlignBottom" AnimationMode="Fade" 
+               WidthRequest="260" HeightRequest="120" Padding="10">
+            <spop:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout Margin="10,0,10,0" Background="AntiqueWhite" VerticalOptions="Center" HorizontalOptions="Center"
+                                 Spacing="5">
+                        <HorizontalStackLayout Spacing="5">
+                            <Button BackgroundColor="#FF00FF" WidthRequest="20" HeightRequest="20"  x:Name="B_1"
+BorderColor="#676767" CornerRadius="10" Command="{Binding ColorPalPickCmd}"  
+CommandParameter="{Binding Source={x:Reference B_1}, Path=BackgroundColor}" BorderWidth="1"/>
+                            <Button BackgroundColor="#800080" WidthRequest="20" HeightRequest="20"  x:Name="B_2" 
+BorderColor="#676767" CornerRadius="10" Command="{Binding ColorPalPickCmd}"  
+CommandParameter="{Binding Source={x:Reference B_2}, Path=BackgroundColor}" BorderWidth="1"/>
+                            <Button BackgroundColor="#FF0000" WidthRequest="20" HeightRequest="20"  x:Name="B_3" 
+BorderColor="#676767" CornerRadius="10" Command="{Binding ColorPalPickCmd}"  
+CommandParameter="{Binding Source={x:Reference B_3}, Path=BackgroundColor}" BorderWidth="1"/>
+                            <Button BackgroundColor="#800000" WidthRequest="20" HeightRequest="20"  x:Name="B_4" 
+BorderColor="#676767" CornerRadius="10" Command="{Binding ColorPalPickCmd}"  
+CommandParameter="{Binding Source={x:Reference B_4}, Path=BackgroundColor}" BorderWidth="1"/>
+                            <Button BackgroundColor="#FFFF00" WidthRequest="20" HeightRequest="20"  x:Name="B_5"
+BorderColor="#676767" CornerRadius="10" Command="{Binding ColorPalPickCmd}"  
+CommandParameter="{Binding Source={x:Reference B_5}, Path=BackgroundColor}" BorderWidth="1"/>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="5">
+                            <Button BackgroundColor="#00BFFF" WidthRequest="20" HeightRequest="20"  x:Name="B_6"
+          BorderColor="#676767" CornerRadius="10" Command="{Binding ColorPalPickCmd}"  
+          CommandParameter="{Binding Source={x:Reference B_6}, Path=BackgroundColor}" BorderWidth="1"/>
+                            <Button BackgroundColor="#00FF00" WidthRequest="20" HeightRequest="20"  x:Name="B_7" 
+          BorderColor="#676767" CornerRadius="10" Command="{Binding ColorPalPickCmd}"  
+          CommandParameter="{Binding Source={x:Reference B_7}, Path=BackgroundColor}" BorderWidth="1"/>
+                            <Button BackgroundColor="#FFA500" WidthRequest="20" HeightRequest="20"  x:Name="B_8" 
+          BorderColor="#676767" CornerRadius="10" Command="{Binding ColorPalPickCmd}"  
+          CommandParameter="{Binding Source={x:Reference B_8}, Path=BackgroundColor}" BorderWidth="1"/>
+                            <Button BackgroundColor="#0000FF" WidthRequest="20" HeightRequest="20"  x:Name="B_10"
+          BorderColor="#676767" CornerRadius="10" Command="{Binding ColorPalPickCmd}"  
+          CommandParameter="{Binding Source={x:Reference B_10}, Path=BackgroundColor}" BorderWidth="1"/>
+                            <Button BackgroundColor="#000080" WidthRequest="20" HeightRequest="20"  x:Name="B_11"
+          BorderColor="#676767" CornerRadius="10" Command="{Binding ColorPalPickCmd}"  
+          CommandParameter="{Binding Source={x:Reference B_11}, Path=BackgroundColor}" BorderWidth="1"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </spop:SfPopup.ContentTemplate>
+        </spop:SfPopup>
     </VerticalStackLayout>
 </ContentPage>

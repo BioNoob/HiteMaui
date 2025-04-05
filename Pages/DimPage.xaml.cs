@@ -2,13 +2,12 @@ using Syncfusion.Maui.Buttons;
 
 namespace HiteMaui.Pages;
 
-public partial class RGB_Page : ContentPage
+public partial class DimPage : ContentPage
 {
-	public RGB_Page()
+	public DimPage()
 	{
 		InitializeComponent();
 	}
-
     private async void SfButton_Clicked(object sender, EventArgs e)
     {
         var q = (sender as SfButton);

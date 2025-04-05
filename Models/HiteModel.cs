@@ -22,7 +22,7 @@ namespace HiteMaui.Models
         public static string ToHex(Color c) => $"{c.R:X2}{c.G:X2}{c.B:X2}";
         private const string Url_http = "http://";
         private const string Url_end = "/rest/devices/";
-        public const string Url_def = "hitepro.local";
+        public const string Url_def = "192.168.100.1";
         public static string Url_req = "";
         private string ip;
         public enum Typer
@@ -76,16 +76,18 @@ namespace HiteMaui.Models
             {
                 if (client is null)
                 {
+                    CloseClient();
+                }
                     var socketsHandler = new SocketsHttpHandler
                     {
                         PooledConnectionLifetime = TimeSpan.FromMinutes(2)
                     };
                     client = new HttpClient(socketsHandler);
                     client.DefaultRequestHeaders.Authorization = new("Basic", Coded);
-                }
+                //Url_req = "http://hitepro.local/devices/";
                 using HttpRequestMessage request = new(HttpMethod.Get, Url_req);
                 CancellationTokenSource s_cts = new CancellationTokenSource();
-                s_cts.CancelAfter(3000);
+                s_cts.CancelAfter(4000);
                 var resp = await client.SendAsync(request, s_cts.Token);
                 if (resp.IsSuccessStatusCode)
                 {

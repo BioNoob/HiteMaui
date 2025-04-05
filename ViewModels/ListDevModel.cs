@@ -26,7 +26,7 @@ namespace HiteMaui.ViewModels
                     switch (obj.GetType().Name)
                     {
                         case "Dimmer":
-                            //await Shell.Current.GoToAsync($"//DIMMER", true, iam);
+                            await Shell.Current.GoToAsync($"//DIMM", true, iam);
                             break;
                         case "RGB":
                             await Shell.Current.GoToAsync($"//RGB", true, iam);
