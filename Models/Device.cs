@@ -130,15 +130,15 @@ namespace HiteMaui.Models
         public bool LightState { get; set; }
         abstract public Task<bool> ChangeState();
         public bool IsChanging { get; set; }
-        private CommandHandler _switchdev;
+        private CommandHandler _updatedevinfo;
 
         public event ISwitcher.UpdateNotifyer OnUpdateRecived;
 
-        public CommandHandler SwitchDeviceCmd
+        public CommandHandler UptadeDevInfoCmd
         {
             get
             {
-                return _switchdev ??= new CommandHandler(async obj =>
+                return _updatedevinfo ??= new CommandHandler(async obj =>
                 {
                     IsChanging = true;
                     try
@@ -162,115 +162,10 @@ namespace HiteMaui.Models
                 );
             }
         }
-    }
-    [AddINotifyPropertyChangedInterface]
-    public class Switcher : Device
-    {
-        public enum States
-        {
-            On = 1,
-            Off = 2
-        }
-        public States State
-        {
-            get
-            {
-                return Status switch
-                {
-                    int => (int)Status == 1 ? States.On : States.Off,
-                    string => (string)Status == "true" ? States.On : States.Off,
-                    bool => (bool)Status ? States.On : States.Off,
-                    _ => States.Off
-                };
-            }
-        }
-        public override async Task<bool> ChangeState()
-        {
-            try
-            {
-                int state = State == States.Off ? (int)States.On : (int)States.Off;
-                using HttpRequestMessage request = new(HttpMethod.Put,
-                    $"{Url_req}{Id}/{state}");
-                var resp = await client.SendAsync(request);
-                var a = await resp.Content.ReadAsStringAsync();
-                if (resp.StatusCode == System.Net.HttpStatusCode.OK)
-                    return true;
-                else return false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
 
-        public Switcher()
+        ~Device()
         {
-
-        }
-
-    }
-    [AddINotifyPropertyChangedInterface]
-    public class Dimmer : Device, ISwitcher
-    {
-        private int dimm;
-        public int LastDim { get; set; }
-        public int Dimm
-        {
-            get => dimm; set
-            {
-                dimm = value;
-                if (dimm > 0)
-                    LastDim = value;
-            }
-        }
-
-        public Dimmer()
-        {
-            Dimm = 0;
-            LastDim = Dimm;
-        }
-        public override async Task<bool> ChangeState()
-        {
-            try
-            {
-                using HttpRequestMessage request = new(HttpMethod.Put, $"{Url_req}{Id}/{(Dimm == 0 ? 100 : 0)}");
-                var resp = await client.SendAsync(request);
-                var a = await resp.Content.ReadAsStringAsync();
-                if (resp.StatusCode == System.Net.HttpStatusCode.OK)
-                    return true;
-                else return false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-    }
-    [AddINotifyPropertyChangedInterface]
-    public class RGB : Dimmer
-    {
-        public Color? Colour_ => string.IsNullOrEmpty(Colour) ? null : Color.FromArgb($"#{Colour}");
-        public RGB()
-        {
-            Colour = string.Empty;
-        }
-        
-        public override async Task<bool> ChangeState()
-        {
-            try
-            {
-                using HttpRequestMessage request = new(HttpMethod.Put, $"{Url_req}{Id}/" +
-                    $"{Dimm}/?color={Colour_?.ToArgbHex(false).Remove(0, 1)}");//{ToHex(color)}");
-                var resp = await client.SendAsync(request);
-                var a = await resp.Content.ReadAsStringAsync();
-                if (resp.StatusCode == System.Net.HttpStatusCode.OK)
-                    return true;
-                else return false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            OnUpdateRecived = delegate { };
         }
     }
 }

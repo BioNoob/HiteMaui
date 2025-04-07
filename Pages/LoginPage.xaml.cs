@@ -1,4 +1,4 @@
-﻿namespace HiteMaui
+﻿namespace HiteMaui.Pages
 {
     public partial class LoginPage : ContentPage
     {

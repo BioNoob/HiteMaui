@@ -12,11 +12,11 @@ namespace HiteMaui.ViewModels
         bool dimupd = false;
         private CommandHandler _refresh;
         private CommandHandler _backward;
-        public Dimmer Dims { get; set; }
+        public Dimmer Device { get; set; }
         public Dimmer_VM()
         {
             isINIT = true;
-            Dims = new Dimmer() { Dimm = 50, Name = "Jopa" }; ;
+            Device = new Dimmer() { Dimm = 50, Name = "Jopa" }; ;
             Dimmer_val = 50;
             IsLightOn = true;
             isINIT = false;
@@ -25,18 +25,19 @@ namespace HiteMaui.ViewModels
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
             isINIT = true;
-            Dims = (Dimmer)query["Dev"];
-            Dims.OnUpdateRecived += Dims_OnUpdateRecived;
-            IsLightOn = Dims.LightState;
-            Dimmer_val = Dims.Dimm;
+            Device = null;
+            Device = (Dimmer)query["Dev"];
+            Device.OnUpdateRecived += Dims_OnUpdateRecived;
+            IsLightOn = Device.LightState;
+            Dimmer_val = Device.Dimm;
             isINIT = false;
         }
 
         private void Dims_OnUpdateRecived()
         {
             isINIT = true;
-            IsLightOn = Dims.LightState;
-            Dimmer_val = Dims.Dimm;
+            IsLightOn = Device.LightState;
+            Dimmer_val = Device.Dimm;
             isINIT = false;
             Updating = false;
         }
@@ -56,10 +57,7 @@ namespace HiteMaui.ViewModels
         {
             isINIT = true;
             Updating = true;
-            Dims.SwitchDeviceCmd.Execute(null);
-
-            //IsLightOn = Dims.LightState;
-            //Dimmer_val = Dims.Dimm;
+            //Device.UptadeDevInfoCmd.Execute(null);
             isINIT = false;
         }
         public CommandHandler RefreshCmd
@@ -81,7 +79,7 @@ namespace HiteMaui.ViewModels
             {
                 isLightOn = value;
                 if (!isINIT && !dimupd)
-                    Dimmer_val = !value ? 0 : Dims.LastDim;
+                    Dimmer_val = !value ? 0 : Device.LastDim;
             }
         }
         [OnChangedMethod(nameof(DimmUpdate))]
@@ -92,7 +90,7 @@ namespace HiteMaui.ViewModels
                 dimmer_val = value;
                 if (!isINIT)
                 {
-                    Dims.Dimm = value;
+                    Device.Dimm = value;
                     Refresh();
                 }
             }

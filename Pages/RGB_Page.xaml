@@ -18,7 +18,7 @@
         <Button MinimumWidthRequest="25" HorizontalOptions="Start" VerticalOptions="Start" Command="{Binding BackCmd}" 
                              MinimumHeightRequest="25"/>
         <Grid Margin="10,0" Padding="0" ColumnDefinitions="*,*" RowDefinitions="*,20">
-            <Label Text="{Binding RGB_switch.Name}" FontSize="20" VerticalTextAlignment="Center"
+            <Label Text="{Binding Device.Name}" FontSize="20" VerticalTextAlignment="Center"
                    VerticalOptions="Center" HorizontalTextAlignment="Center" HorizontalOptions="Start"/>
 
                 <sbut:SfButton MaximumHeightRequest="25" MaximumWidthRequest="25" MinimumHeightRequest="25" MinimumWidthRequest="25" 

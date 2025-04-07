@@ -8,10 +8,12 @@
     FlyoutBehavior="Disabled"
     Title="HiteMaui" FlyoutBackgroundImageAspect="Center" 
     FlyoutIsPresented="False" InputTransparent="False">
-    
-    <ShellContent ContentTemplate="{DataTemplate local:LoginPage}" Route="Login"/>
-    <ShellContent ContentTemplate="{DataTemplate pages:ListDevPage}" Route="List"/>
+
     <ShellContent ContentTemplate="{DataTemplate pages:DimPage}" Route="DIMM"/>
+
+    <ShellContent ContentTemplate="{DataTemplate pages:LoginPage}" Route="Login"/>
+    <ShellContent ContentTemplate="{DataTemplate pages:ListDevPage}" Route="List"/>
+
     <ShellContent ContentTemplate="{DataTemplate pages:RGB_Page}" Route="RGB"/>
 
 </Shell>

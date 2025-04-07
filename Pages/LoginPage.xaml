@@ -2,8 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local ="clr-namespace:HiteMaui.ViewModels"
-             xmlns:sbut="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
-             x:Class="HiteMaui.LoginPage">
+             x:Class="HiteMaui.Pages.LoginPage">
     <ContentPage.BindingContext>
         <local:LoginModel/>
     </ContentPage.BindingContext>
@@ -18,7 +17,7 @@
             <VerticalStackLayout Grid.Row="1">
                 <Label Text="Server Adress" HorizontalOptions="Center"
                        VerticalOptions="End"/>
-                <Entry HorizontalOptions="Fill" Text="{Binding Ip}" MaximumWidthRequest="250" ClearButtonVisibility="WhileEditing"
+                <Entry HorizontalOptions="Fill" Text="{Binding Ip}" ClearButtonVisibility="WhileEditing"
                         HeightRequest="35" MinimumHeightRequest="35" MinimumWidthRequest="150">
                     <Entry.Triggers>
                         <DataTrigger TargetType="Entry"
@@ -38,7 +37,11 @@
                         </DataTrigger>
                     </Entry.Triggers>
                 </Entry>
-                <sbut:SfCheckBox Text="Use local" IsChecked="{Binding UseLocal}" TextColor="White"/>
+                <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding UseLocal}" HorizontalOptions="Start" VerticalOptions="Center" MinimumWidthRequest="20"/>
+                    <Label  Text="Use local" TextColor="White" VerticalOptions="Center" HorizontalOptions="Start"/>
+                </HorizontalStackLayout>
+
             </VerticalStackLayout>
             <VerticalStackLayout Grid.Row="2">
                 <Label Text="Login" VerticalOptions="Center" FontSize="12"/>
@@ -49,12 +52,10 @@
                 <Entry HorizontalOptions="Fill" MinimumWidthRequest="100"  MinimumHeightRequest="25" Text="{Binding Passwd}" 
                        IsPassword="True"/>
             </VerticalStackLayout>
-            <sbut:SfButton Grid.Row="4" Text="Connect" IsEnabled="{Binding AllIsValid}" MaximumWidthRequest="250" Command="{Binding DoLoginCmd }"/>
+            <Button Grid.Row="4" Text="Connect" IsEnabled="{Binding AllIsValid}" MaximumWidthRequest="250" Command="{Binding DoLoginCmd }"/>
             <Label HorizontalOptions="Fill" HorizontalTextAlignment="Center" Text="{Binding Messge}"
                    Grid.Row="5" FontSize="8"/>
         </Grid>
-
-
     </VerticalStackLayout>
 
 </ContentPage>

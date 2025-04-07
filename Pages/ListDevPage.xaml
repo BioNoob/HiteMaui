@@ -9,22 +9,21 @@
         <local:ListDevModel/>
     </ContentPage.BindingContext>
     <ScrollView>
-            <FlexLayout Padding="0,0" Margin="10" Wrap="Wrap"
+        <FlexLayout Padding="0,0" Margin="10" Wrap="Wrap"
                 BindableLayout.ItemsSource="{Binding Devices}" JustifyContent="Start" 
                 Direction="Row" AlignItems="Stretch">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="lc:Device">
-                        <Grid RowDefinitions="25,50" RowSpacing="1" ColumnDefinitions="Auto,50" IsClippedToBounds="True" 
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="lc:Device">
+                    <Grid RowDefinitions="25,50" RowSpacing="1" ColumnDefinitions="Auto,50" IsClippedToBounds="True" 
                           MaximumWidthRequest="90" MaximumHeightRequest="70" BindingContext="{Binding .}" x:Name="STAS"
                           MinimumWidthRequest="90" MinimumHeightRequest="70" InputTransparent="False" 
                           >
-                            <Grid.Behaviors>
-                                <behaviors:TouchBehavior LongPressCommand="{Binding BindingContext.OpenEditCmd, Source={Reference Name=DevPage}}" 
+                        <Grid.Behaviors>
+                            <behaviors:TouchBehavior LongPressCommand="{Binding BindingContext.OpenEditCmd, Source={Reference Name=DevPage}}" 
                                                      LongPressDuration="1000" LongPressCommandParameter="{Binding .}"
-                                                     Command="{Binding SwitchDeviceCmd}" CommandParameter="{Binding .}"
+                                                     Command="{Binding UptadeDevInfoCmd}" CommandParameter="{Binding .}"
                                                      BindingContext="{Binding Source={x:Reference STAS}, Path=BindingContext}"/>
-                            </Grid.Behaviors>
-
+                        </Grid.Behaviors>
                         <Label Text="{Binding Name}" FontSize="14" Grid.Row="0" Grid.ColumnSpan="1"/>
                             <Label Text="{Binding Type_str}" FontSize="10" VerticalOptions="Start" Grid.Column="0" Grid.Row="1"/>
                             <Switch IsToggled="{Binding LightState}" HorizontalOptions="End" VerticalOptions="Center" Grid.Column="1" Grid.Row="1"/>
