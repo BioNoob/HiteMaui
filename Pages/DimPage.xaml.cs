@@ -1,5 +1,3 @@
-using Syncfusion.Maui.Buttons;
-
 namespace HiteMaui.Pages;
 
 public partial class DimPage : ContentPage
@@ -10,7 +8,7 @@ public partial class DimPage : ContentPage
 	}
     private async void SfButton_Clicked(object sender, EventArgs e)
     {
-        var q = (sender as SfButton);
+        var q = (sender as Button);
         await q.RotateTo(360);
         q.Rotation = 0;
     }

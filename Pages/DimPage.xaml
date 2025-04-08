@@ -1,38 +1,57 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="HiteMaui.Pages.DimPage"
              xmlns:local ="clr-namespace:HiteMaui.ViewModels"
              x:Name="Dim_Page">
     <ContentPage.BindingContext>
         <local:Dimmer_VM/>
     </ContentPage.BindingContext>
-    <VerticalStackLayout
+    <RefreshView IsRefreshing="{Binding Updating, Mode=OneWay}"
+                 Command="{Binding RefreshCmd}">
+        <ScrollView  Background="CadetBlue"
             Padding="0,0" Margin="5">
-        <Button MinimumWidthRequest="25" HorizontalOptions="Start" VerticalOptions="Start" Command="{Binding BackCmd}" 
-                             MinimumHeightRequest="25"/>
-        <Grid Margin="10,0" Padding="0" ColumnDefinitions="*,*" RowDefinitions="*,20">
-            <Label Text="{Binding Device.Name}" FontSize="20" VerticalTextAlignment="Center"
+            <Grid Margin="10,0" Padding="0" ColumnDefinitions="*,*" RowDefinitions="*,20,*" VerticalOptions="Start">
+                <Label Text="{Binding Device.Name}" FontSize="20" VerticalTextAlignment="Center"
                    VerticalOptions="Center" HorizontalTextAlignment="Center" HorizontalOptions="Start"/>
-            <Button MaximumHeightRequest="25" MaximumWidthRequest="25" 
-                    MinimumHeightRequest="25" MinimumWidthRequest="25" 
-                    Grid.Column="1" HorizontalOptions="End" Background="Yellow"
-                    ImageSource="refresh.png" Command="{Binding RefreshCmd}"
-                    Clicked="SfButton_Clicked"/>
-            <Label Text="Swich" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="10"
+                <Button Padding="0"
+                    Grid.Column="1" HorizontalOptions="End"
+                    ImageSource="reffresh.png" Command="{Binding RefreshCmd}"
+                    WidthRequest="25" Background="Transparent"
+                    HeightRequest="25" 
+                    MinimumHeightRequest="25"
+                    MinimumWidthRequest="25"
+                    Clicked="SfButton_Clicked">
+                    <Button.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+                    </Button.Behaviors>
+                </Button>
+                <Label Text="Swich" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="10"
            VerticalOptions="End" HorizontalOptions="Start" Margin="0,0,5,0" Grid.Column="0" Grid.Row="1"/>
-        </Grid>
-        <Grid VerticalOptions="Fill" HorizontalOptions="Fill" ColumnDefinitions="Auto,*" RowDefinitions="0,*,0.5*"
-                  RowSpacing="5" Margin="5" ColumnSpacing="5">
-            <Slider Minimum ="0" Maximum="100" Value="{Binding Dimmer_val, Mode=TwoWay}" 
-                    Grid.Column="1" Grid.Row="2" MaximumWidthRequest="200" 
+                <Slider Minimum ="0" Maximum="100" Value="{Binding Dimmer_val, Mode=TwoWay}" 
+                    Grid.Column="3" Grid.Row="2" MaximumWidthRequest="200" 
+                    DragCompletedCommand="{Binding EndOfSliderCmd}"
+                    DragStartedCommand="{Binding StartOfSliderCmd}"
                     Margin="0,0,0,0" VerticalOptions="Center" 
                     HorizontalOptions="Fill" 
                     MinimumTrackColor="White" 
                     MaximumTrackColor="Gray"/>
-            <Switch MinimumWidthRequest="40" IsToggled="{Binding IsLightOn}" HorizontalOptions="End" 
-                       Grid.Row="2" Grid.Column="0">
-            </Switch>
-        </Grid>
-    </VerticalStackLayout>
+                <Switch MinimumWidthRequest="40" IsToggled="{Binding IsLightOn}" HorizontalOptions="End" 
+                       Grid.Row="3" Grid.Column="0"/>
+            </Grid>
+            <!--<Grid VerticalOptions="Fill" HorizontalOptions="Fill" ColumnDefinitions="Auto,*" RowDefinitions="0,*,0.5*"
+                  RowSpacing="5" Margin="10,0" ColumnSpacing="5">
+
+
+            </Grid>-->
+            <ScrollView.GestureRecognizers>
+                <SwipeGestureRecognizer
+                Direction="Left,Right"
+                Command="{Binding BackCmd}"
+                Threshold="50"
+                />
+            </ScrollView.GestureRecognizers>
+        </ScrollView>
+    </RefreshView>
 </ContentPage>

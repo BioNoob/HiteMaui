@@ -9,9 +9,12 @@ namespace HiteMaui.ViewModels
         private bool isLightOn;
         private bool isINIT;
         private int dimmer_val;
+        private int dim_buf_val;
         bool dimupd = false;
         private CommandHandler _refresh;
         private CommandHandler _backward;
+        private CommandHandler _endofslider;
+        private CommandHandler _startofslider;
         public Dimmer Device { get; set; }
         public Dimmer_VM()
         {
@@ -56,7 +59,7 @@ namespace HiteMaui.ViewModels
         public void Refresh()
         {
             isINIT = true;
-            Updating = true;
+            Updating = true; //выставит апдейтер.. или изменим тип приявязки?
             //Device.UptadeDevInfoCmd.Execute(null);
             isINIT = false;
         }
@@ -71,6 +74,30 @@ namespace HiteMaui.ViewModels
                 (obj) => true);
             }
         }
+        public CommandHandler EndOfSliderCmd
+        {
+            get
+            {
+                return _endofslider ??= new CommandHandler(obj =>
+                {
+                    if (dim_buf_val != Dimmer_val)
+                        Refresh();
+
+                },
+                (obj) => true);
+            }
+        }
+        public CommandHandler StartOfSliderCmd
+        {
+            get
+            {
+                return _startofslider ??= new CommandHandler(obj =>
+                {
+                    dim_buf_val = Dimmer_val;
+                },
+                (obj) => true);
+            }
+        }
 
         public bool IsLightOn
         {
@@ -79,7 +106,10 @@ namespace HiteMaui.ViewModels
             {
                 isLightOn = value;
                 if (!isINIT && !dimupd)
+                {
                     Dimmer_val = !value ? 0 : Device.LastDim;
+                    Refresh();
+                }
             }
         }
         [OnChangedMethod(nameof(DimmUpdate))]
@@ -91,7 +121,6 @@ namespace HiteMaui.ViewModels
                 if (!isINIT)
                 {
                     Device.Dimm = value;
-                    Refresh();
                 }
             }
         }

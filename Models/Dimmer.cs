@@ -18,10 +18,11 @@ namespace HiteMaui.Models
             }
         }
 
-        public Dimmer()
+        public Dimmer() : base()
         {
             Dimm = 0;
             LastDim = Dimm;
+            
         }
         public override async Task<bool> ChangeState()
         {
