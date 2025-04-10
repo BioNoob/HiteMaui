@@ -10,9 +10,9 @@
     </ContentPage.BindingContext>
     <RefreshView IsRefreshing="{Binding Updating, Mode=OneWay}"
                  Command="{Binding RefreshCmd}">
-        <ScrollView  Background="CadetBlue"
+        <ScrollView
             Padding="0,0" Margin="5">
-            <Grid Margin="10,0" Padding="0" ColumnDefinitions="*,*" RowDefinitions="*,20,*" VerticalOptions="Start">
+            <Grid Margin="10,20,10,0" Padding="0" ColumnDefinitions="Auto,*" RowDefinitions="*,20,*" VerticalOptions="Start">
                 <Label Text="{Binding Device.Name}" FontSize="20" VerticalTextAlignment="Center"
                    VerticalOptions="Center" HorizontalTextAlignment="Center" HorizontalOptions="Start"/>
                 <Button Padding="0"
@@ -26,32 +26,49 @@
                     <Button.Behaviors>
                         <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
                     </Button.Behaviors>
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button"
+                 Binding="{Binding Updating}"
+                 Value="true">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Button.Triggers>
                 </Button>
-                <Label Text="Swich" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="10"
+                <Label Text="Switch" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="10"
            VerticalOptions="End" HorizontalOptions="Start" Margin="0,0,5,0" Grid.Column="0" Grid.Row="1"/>
                 <Slider Minimum ="0" Maximum="100" Value="{Binding Dimmer_val, Mode=TwoWay}" 
-                    Grid.Column="3" Grid.Row="2" MaximumWidthRequest="200" 
+                    Grid.Column="1" Grid.Row="2" 
                     DragCompletedCommand="{Binding EndOfSliderCmd}"
                     DragStartedCommand="{Binding StartOfSliderCmd}"
                     Margin="0,0,0,0" VerticalOptions="Center" 
-                    HorizontalOptions="Fill" 
                     MinimumTrackColor="White" 
-                    MaximumTrackColor="Gray"/>
-                <Switch MinimumWidthRequest="40" IsToggled="{Binding IsLightOn}" HorizontalOptions="End" 
-                       Grid.Row="3" Grid.Column="0"/>
+                    MaximumTrackColor="Gray">
+                    <Slider.Triggers>
+                        <DataTrigger TargetType="Slider"
+                                     Binding="{Binding Updating}"
+                                     Value="true">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Slider.Triggers>
+                </Slider>
+                <Switch MinimumWidthRequest="40" IsToggled="{Binding IsLightOn}" HorizontalOptions="Start" 
+                       Grid.Row="3" Grid.Column="0">
+                    <Switch.Triggers>
+                        <DataTrigger TargetType="Switch"
+                 Binding="{Binding Updating}"
+                 Value="true">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Switch.Triggers>
+                </Switch>
             </Grid>
-            <!--<Grid VerticalOptions="Fill" HorizontalOptions="Fill" ColumnDefinitions="Auto,*" RowDefinitions="0,*,0.5*"
-                  RowSpacing="5" Margin="10,0" ColumnSpacing="5">
-
-
-            </Grid>-->
-            <ScrollView.GestureRecognizers>
+            <!--<ScrollView.GestureRecognizers>
                 <SwipeGestureRecognizer
                 Direction="Left,Right"
                 Command="{Binding BackCmd}"
                 Threshold="50"
                 />
-            </ScrollView.GestureRecognizers>
+            </ScrollView.GestureRecognizers>-->
         </ScrollView>
     </RefreshView>
 </ContentPage>

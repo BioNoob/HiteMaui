@@ -49,9 +49,9 @@ namespace HiteMaui.ViewModels
         {
             get
             {
-                return _backward ??= new CommandHandler(obj =>
+                return _backward ??= new CommandHandler(async obj =>
                 {
-                    Shell.Current.GoToAsync($"//List", true);
+                    await Shell.Current.GoToAsync($"//List", true);
                 },
                 (obj) => true);
             }
