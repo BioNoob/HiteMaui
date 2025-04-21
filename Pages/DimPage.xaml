@@ -12,11 +12,11 @@
                  Command="{Binding RefreshCmd}">
         <ScrollView
             Padding="0,0" Margin="5">
-            <Grid Margin="10,20,10,0" Padding="0" ColumnDefinitions="Auto,*" RowDefinitions="*,20,*" VerticalOptions="Start">
+            <Grid Margin="10,5,10,0" Padding="0" ColumnDefinitions="Auto,*" RowDefinitions="*,20,*,*" VerticalOptions="Start">
                 <Label Text="{Binding Device.Name}" FontSize="20" VerticalTextAlignment="Center"
                    VerticalOptions="Center" HorizontalTextAlignment="Center" HorizontalOptions="Start"/>
                 <Button Padding="0"
-                    Grid.Column="1" HorizontalOptions="End"
+                    Grid.Column="1" Grid.RowSpan="2" HorizontalOptions="End"
                     ImageSource="reffresh.png" Command="{Binding RefreshCmd}"
                     WidthRequest="25" Background="Transparent"
                     HeightRequest="25" 
@@ -36,13 +36,23 @@
                 </Button>
                 <Label Text="Switch" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="10"
            VerticalOptions="End" HorizontalOptions="Start" Margin="0,0,5,0" Grid.Column="0" Grid.Row="1"/>
+                <Border Grid.Column="1" Grid.Row="2" Margin="0" VerticalOptions="Center" 
+                HeightRequest="4" WidthRequest="{Binding x:DataType='Slider',Source={x:Reference TrSlider},Path=Width}" 
+                InputTransparent="True" StrokeThickness="0" StrokeShape="RoundRectangle 5">
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="1,0">
+                            <GradientStop Color="White" Offset="1.0"/>
+                            <GradientStop Color="#363636" Offset="0.1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
                 <Slider Minimum ="0" Maximum="100" Value="{Binding Dimmer_val, Mode=TwoWay}" 
-                    Grid.Column="1" Grid.Row="2" 
+                    Grid.Column="1" Grid.Row="2" x:Name="TrSlider"
                     DragCompletedCommand="{Binding EndOfSliderCmd}"
                     DragStartedCommand="{Binding StartOfSliderCmd}"
-                    Margin="0,0,0,0" VerticalOptions="Center" 
-                    MinimumTrackColor="White" 
-                    MaximumTrackColor="Gray">
+                    MinimumTrackColor="Transparent" 
+                    MaximumTrackColor="Transparent"
+                    Margin="0,0,0,0" VerticalOptions="Center">
                     <Slider.Triggers>
                         <DataTrigger TargetType="Slider"
                                      Binding="{Binding Updating}"
@@ -52,11 +62,11 @@
                     </Slider.Triggers>
                 </Slider>
                 <Switch MinimumWidthRequest="40" IsToggled="{Binding IsLightOn}" HorizontalOptions="Start" 
-                       Grid.Row="3" Grid.Column="0">
+                       Grid.Row="2" Grid.Column="0">
                     <Switch.Triggers>
                         <DataTrigger TargetType="Switch"
-                 Binding="{Binding Updating}"
-                 Value="true">
+                            Binding="{Binding Updating}"
+                            Value="true">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
                     </Switch.Triggers>

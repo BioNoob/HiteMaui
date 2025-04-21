@@ -59,7 +59,7 @@ namespace HiteMaui.ViewModels
         public void Refresh()
         {
             isINIT = true;
-            Updating = true; //выставит апдейтер.. или изменим тип приявязки?
+            //Updating = true; //выставит апдейтер.. или изменим тип приявязки?
             //Device.UptadeDevInfoCmd.Execute(null);
             isINIT = false;
         }

@@ -70,62 +70,42 @@
                     </clrp:ColorPicker.BaseColorList>-->
                 </clrp:ColorPicker>
             </Border>
-            <sl:SfSlider Minimum ="0" Maximum="100" Value="{Binding Dimmer_val, Mode=TwoWay}" Grid.Column="1" Grid.Row="2"
-                             Orientation="Horizontal" MaximumWidthRequest="200"
-                                 Margin="0,0,0,0" ClipToBounds="True" EnableDeferredUpdate="True"
-                        VerticalOptions="Center" HorizontalOptions="Start" ShowLabels="False" 
-                                 ShowDividers="True" ShowTicks="False">
-                <sl:SfSlider.TrackStyle>
-                    <sl:SliderTrackStyle ActiveFill="WhiteSmoke" InactiveFill="Gray" ActiveSize="6" />
-                </sl:SfSlider.TrackStyle>
-                <sl:SfSlider.ThumbStyle>
-                    <sl:SliderThumbStyle Fill="#FFFF6E40" Radius="9"/>
-                </sl:SfSlider.ThumbStyle>
-                <sl:SfSlider.ThumbOverlayStyle>
-                    <sl:SliderThumbOverlayStyle Fill="#7F003CFF" Radius="15"/>
-                </sl:SfSlider.ThumbOverlayStyle>
-            </sl:SfSlider>
-            <sbut:SfSwitch MinimumWidthRequest="40" IsOn="{Binding IsLightOn}" HorizontalOptions="End" Grid.Row="2" Grid.Column="0">
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroup  x:Name="CommonStates">
-                        <VisualState x:Name="On">
-                            <VisualState.Setters>
-                                <Setter Property="SwitchSettings">
-                                    <Setter.Value>
-                                        <sbut:SwitchSettings
-                                ThumbStrokeThickness="2"
-                                TrackStrokeThickness="2"  
-                                TrackHeightRequest="25" 
-                                TrackWidthRequest="50" 
-                                TrackCornerRadius="8"
-                                ThumbCornerRadius="8" 
-                                ThumbHeightRequest="15" 
-                                ThumbWidthRequest="15"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </VisualState.Setters>
-                        </VisualState>
-                        <VisualState x:Name="Off">
-                            <VisualState.Setters>
-                                <Setter Property="SwitchSettings">
-                                    <Setter.Value>
-                                        <sbut:SwitchSettings
-                                ThumbStrokeThickness="2"
-                                TrackStrokeThickness="2"  
-                                TrackHeightRequest="25" 
-                                TrackWidthRequest="50" 
-                                TrackCornerRadius="8"
-                                ThumbCornerRadius="8" 
-                                ThumbHeightRequest="10" 
-                                ThumbWidthRequest="10"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </VisualState.Setters>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateManager.VisualStateGroups>
-            </sbut:SfSwitch>
-
+            <Border Grid.Column="1" Grid.Row="3" Margin="0" VerticalOptions="Center" 
+                    HeightRequest="4" WidthRequest="{Binding x:DataType='Slider',Source={x:Reference TrSlider},
+                    Path=Width}" 
+                    InputTransparent="True" StrokeThickness="0" StrokeShape="RoundRectangle 5">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="1,0">
+                        <GradientStop Color="Yellow" Offset="1.0"/>
+                        <GradientStop Color="Purple" Offset="0.1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            <Slider Minimum ="0" Maximum="100" Value="{Binding Dimmer_val, Mode=TwoWay}" 
+                    Grid.Column="1" Grid.Row="2" x:Name="TrSlider"
+                    DragCompletedCommand="{Binding EndOfSliderCmd}"
+                    DragStartedCommand="{Binding StartOfSliderCmd}"
+                    MinimumTrackColor="Transparent" 
+                    MaximumTrackColor="Transparent"
+                    Margin="0,0,0,0" VerticalOptions="Center">
+                <Slider.Triggers>
+                    <DataTrigger TargetType="Slider"
+                                 Binding="{Binding Updating}"
+                                 Value="true">
+                        <Setter Property="IsEnabled" Value="False"/>
+                    </DataTrigger>
+                </Slider.Triggers>
+            </Slider>
+            <Switch MinimumWidthRequest="40" IsToggled="{Binding IsLightOn}" HorizontalOptions="Start" 
+                    Grid.Row="2" Grid.Column="0">
+                <Switch.Triggers>
+                    <DataTrigger TargetType="Switch"
+                                 Binding="{Binding Updating}"
+                                 Value="true">
+                        <Setter Property="IsEnabled" Value="False"/>
+                    </DataTrigger>
+                </Switch.Triggers>
+            </Switch>
         </Grid>
         <spop:SfPopup OverlayMode="Blur" ShowHeader="False" ShowFooter="False"  IsOpen="{Binding ColorPalleteIsOpen}"
 RelativeView="{x:Reference ClrEntry}" RelativePosition="AlignBottom" AnimationMode="Fade" 
